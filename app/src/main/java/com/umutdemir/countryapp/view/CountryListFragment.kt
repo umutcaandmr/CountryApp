@@ -15,6 +15,7 @@ import com.umutdemir.countryapp.viewmodel.CountryListViewModel
 
 class CountryListFragment : Fragment() {
 
+
     private lateinit var binding : FragmentCountryListBinding
     private lateinit var viewModel: CountryListViewModel
     private val countryAdapter = CountryAdapter(arrayListOf())
@@ -33,7 +34,7 @@ class CountryListFragment : Fragment() {
 
 
         viewModel = ViewModelProvider(this)[CountryListViewModel::class.java]
-        viewModel.getDataFromAPI()
+        viewModel.getDataFromSQLite()
 
         binding.countryList.adapter = countryAdapter
         binding.countryList.layoutManager = LinearLayoutManager(requireContext())
@@ -62,7 +63,20 @@ class CountryListFragment : Fragment() {
                 binding.countryError.visibility = View.VISIBLE
             }
         }
+
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getDataFromSQLite()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
+
     }
+
+
+
+
+
 
 
 }
